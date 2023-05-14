@@ -30,6 +30,7 @@ import { SetRateWizard } from './wizards/set-rate';
       entities: [BotUser, WorkShift],
       synchronize: true,
       logging: true,
+      ssl: true,
     }),
   ],
   controllers: [],
