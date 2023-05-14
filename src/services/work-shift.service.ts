@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from './user.service';
-import { WorkShift } from 'src/entities/WorkShift.entity';
-import { BotUser } from 'src/entities/User.entity';
+import { WorkShift } from '../entities/WorkShift.entity';
+import { BotUser } from '../entities/User.entity';
 
 @Injectable()
 export class WorkShiftService {

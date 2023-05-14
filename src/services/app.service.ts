@@ -4,8 +4,8 @@ import { Context, Markup } from 'telegraf';
 import { UsersService } from './user.service';
 import { SceneContext } from 'telegraf/typings/scenes';
 import { WorkShiftService } from './work-shift.service';
-import { getDateMessage } from 'src/helpers/time';
-import { WorkShift } from 'src/entities/WorkShift.entity';
+import { WorkShift } from '../entities/WorkShift.entity';
+import { getDateMessage } from '../helpers/time';
 
 @Update()
 @Injectable()

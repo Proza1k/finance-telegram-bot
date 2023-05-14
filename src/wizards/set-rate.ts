@@ -1,7 +1,7 @@
 import { Context, Wizard, WizardStep } from 'nestjs-telegraf';
-import { UsersService } from 'src/services/user.service';
-import { WorkShiftService } from 'src/services/work-shift.service';
 import { Markup, Scenes, deunionize } from 'telegraf';
+import { UsersService } from '../services/user.service';
+import { WorkShiftService } from '../services/work-shift.service';
 
 @Wizard('SetRate')
 export class SetRateWizard {
