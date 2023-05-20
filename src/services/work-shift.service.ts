@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { WorkShift } from '../entities/WorkShift.entity';
 import { BotUser } from '../entities/User.entity';
+import { Between } from 'typeorm';
+import { SalaryHelper } from '../helpers/salary';
 
 @Injectable()
 export class WorkShiftService {
@@ -53,5 +55,34 @@ export class WorkShiftService {
     });
 
     await workShift.save();
+  }
+
+  async calculateSalary(telegram_user_id: number, userDate: Date) {
+    const user = await this.usersService.findByTelegramId(telegram_user_id);
+
+    if (user) {
+      const currentDate = new Date(userDate);
+      const startOfMonth = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        1,
+      );
+      const endOfMonth = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        0,
+      );
+
+      const records = await WorkShift.find({
+        where: {
+          start_time: Between(startOfMonth, endOfMonth),
+          telegram_user_id,
+        },
+      });
+
+      const result = await SalaryHelper.calculate(records);
+
+      return result;
+    }
   }
 }

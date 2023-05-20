@@ -6,6 +6,7 @@ import { SceneContext } from 'telegraf/typings/scenes';
 import { WorkShiftService } from './work-shift.service';
 import { WorkShift } from '../entities/WorkShift.entity';
 import { getDateMessage } from '../helpers/time';
+import { getAnalyticsMessage } from '../messages/analytics';
 
 @Update()
 @Injectable()
@@ -141,5 +142,26 @@ export class AppService {
   @Command('set_rate')
   async setRate(ctx: SceneContext) {
     await ctx.scene.enter('SetRate');
+  }
+
+  @Hears('Аналитика')
+  @Command('analytics')
+  async getAnalytics(ctx: SceneContext) {
+    const userId = ctx.message.chat.id;
+    const end_time = getDateMessage(ctx.message.date);
+
+    const currentMonthAnalytics = await this.workShiftService.calculateSalary(
+      userId,
+      end_time,
+    );
+
+    return ctx.reply(
+      getAnalyticsMessage(currentMonthAnalytics),
+      Markup.keyboard([
+        ['Закончить работу'],
+        ['Аналитика'],
+        ['Сменить ФИО', 'Сменить ставку'],
+      ]).resize(),
+    );
   }
 }
